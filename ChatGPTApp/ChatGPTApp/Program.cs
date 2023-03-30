@@ -21,17 +21,10 @@ abstract class Program
             .Append(context.Transforms.NormalizeLpNorm("Features"))
             .AppendCacheCheckpoint(context);
 
-        var modelPath = "/Users/rminafa/Projects/DotNet_ChatGpt_Application/ChatGPTApp/ChatGPTApp/src/model.py";
-        var model = context.Model.Load(modelPath, out _);
-        var engine = context.Model.CreatePredictionEngine<GPT2Input, GPT2Output>(model);
+        var modelPath = "/Users/rminafa/Projects/DotNet_ChatGpt_Application/ChatGPTApp/ChatGPTApp/gpt-2-master/src/model.py";
+        var engine = context.Model.CreatePredictionEngine<GPT2Input, GPT2Output>(transformerChain.Fit(context.Data.LoadFromEnumerable(new List<GPT2Input> { new GPT2Input { Text = "Hello" } })));
+        var text = GenerateText(context, engine, "Hello");
+        Console.WriteLine(text);
 
-        Console.WriteLine("Enter some text to generate a response:");
-        string inputText = Console.ReadLine();
-
-        string generatedText = GenerateText(context, engine, inputText);
-        Console.WriteLine($"Generated text: {generatedText}");
-
-        Console.ReadLine();
-    
     }
 }
