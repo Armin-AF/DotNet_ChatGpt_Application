@@ -5,7 +5,7 @@ namespace ChatGPTApp;
 internal abstract class Program
 {
 
-    static string GenerateText(MLContext context, PredictionEngine<GPT2Input, GPT2Output> engine, string inputText)
+    static string GenerateText(MLContext context, PredictionEngineBase<GPT2Input, GPT2Output> engine, string inputText)
     {
         var input = new GPT2Input { Text = inputText };
         var output = engine.Predict(input);
