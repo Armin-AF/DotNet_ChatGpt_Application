@@ -26,8 +26,14 @@ internal abstract class Program
         var text = GenerateText(context, engine, "Hello");
         
         // use the model to make a prediction
+        var prediction = engine.Predict(new GPT2Input { Text = "Hello" });
         
-        Console.WriteLine($"Text: {text}"); // Text: Hello
+        Console.WriteLine($"Text: {prediction.GeneratedText}"); // Text: Hello
+        
+        
+        Console.WriteLine("Press any key to exit...");
+        
+        Console.ReadKey();
 
     }
 }
