@@ -2,10 +2,10 @@
 
 namespace ChatGPTApp;
 
-abstract class Program
+internal abstract class Program
 {
-    
-    public static string GenerateText(MLContext context, PredictionEngine<GPT2Input, GPT2Output> engine, string inputText)
+
+    static string GenerateText(MLContext context, PredictionEngine<GPT2Input, GPT2Output> engine, string inputText)
     {
         var input = new GPT2Input { Text = inputText };
         var output = engine.Predict(input);
@@ -20,11 +20,14 @@ abstract class Program
             .Append(context.Transforms.Concatenate("Features", "Ngrams"))
             .Append(context.Transforms.NormalizeLpNorm("Features"))
             .AppendCacheCheckpoint(context);
-
-        var modelPath = "/Users/rminafa/Projects/DotNet_ChatGpt_Application/ChatGPTApp/ChatGPTApp/gpt-2-master/src/model.py";
+        
+        const string modelPath = "/Users/rminafa/Projects/DotNet_ChatGpt_Application/ChatGPTApp/ChatGPTApp/gpt-2-master/src/model.py";
         var engine = context.Model.CreatePredictionEngine<GPT2Input, GPT2Output>(transformerChain.Fit(context.Data.LoadFromEnumerable(new List<GPT2Input> { new GPT2Input { Text = "Hello" } })));
         var text = GenerateText(context, engine, "Hello");
-        Console.WriteLine(text);
+        
+        // use the model to make a prediction
+        
+        Console.WriteLine($"Text: {text}"); // Text: Hello
 
     }
 }
